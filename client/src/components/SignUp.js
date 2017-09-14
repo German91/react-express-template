@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
-class Login extends Component {
+class SignUp extends Component {
   constructor(props) {
     super(props);
 
@@ -14,8 +14,9 @@ class Login extends Component {
 
     let email = this.refs.email.value.trim();
     let password = this.refs.password.value.trim();
+    let username = this.refs.username.value.trim();
 
-    this.props.loginUser({ email, password }, this.props.history);
+    this.props.createUser({ email, password, username }, this.props.history);
   }
 
   render() {
@@ -34,7 +35,12 @@ class Login extends Component {
                 <input type="password" id="password" ref="password" placeholder="Password" className="form-control" />
               </div>
 
-              <button className="btn btn-primary" type="submit">Login</button>
+              <div className="form-group">
+                <label htmlFor="username">Username</label>
+                <input type="username" id="username" ref="username" placeholder="Username" className="form-control" />
+              </div>
+
+              <button className="btn btn-primary" type="submit">Sign Up</button>
             </form>
           </div>
         </div>
@@ -43,4 +49,4 @@ class Login extends Component {
   }
 }
 
-export default connect(null, actions)(Login);
+export default connect(null, actions)(SignUp);

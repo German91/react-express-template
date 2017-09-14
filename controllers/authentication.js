@@ -40,8 +40,8 @@ exports.create = async (req, res, next) => {
 exports.login = (req, res, next) => {
   const data = req.body;
 
-  if (!data.email && !data.username) {
-    return res.status(400).send({ code: 400, status: 'error', message: 'Email Address or username is required' });
+  if (!data.email) {
+    return res.status(400).send({ code: 400, status: 'error', message: 'Email Address is required' });
   }
 
   if (!data.password) {
@@ -49,32 +49,29 @@ exports.login = (req, res, next) => {
   }
 
   // Find user by email or username
-  User
-    .findOne({ $or: [{ email: data.email }, { username: data.username }] })
-    .select('+password')
-    .exec(function (err, user) {
+  User.findOne({ email: data.email }).select('+password').exec(function (err, user) {
+    if (err) return next(err);
+
+    if (!user) {
+      return res.status(404).send({ code: 404, status: 'error', message: 'User not found' });
+    }
+
+    // Check if the password is correct
+    user.comparePassword(data.password, function (err, isMatch) {
       if (err) return next(err);
 
-      if (!user) {
-        return res.status(404).send({ code: 404, status: 'error', message: 'User not found' });
+      if (!isMatch) {
+        return res.status(400).send({ code: 400, status: 'error', message: 'Email or password is incorrect' });
       }
 
-      // Check if the password is correct
-      user.comparePassword(data.password, function (err, isMatch) {
-        if (err) return next(err);
+      let token = Jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: '1d' });
 
-        if (!isMatch) {
-          return res.status(400).send({ code: 400, status: 'error', message: 'Email/Username or password is incorrect' });
-        }
-
-        let token = Jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: '1d' });
-
-        res
-          .header('Authorization', token)
-          .status(200)
-          .send({ code: 200, status: 'success', token });
-      });
+      res
+        .header('Authorization', token)
+        .status(200)
+        .send({ code: 200, status: 'success', token });
     });
+  });
 };
 
 /**
@@ -129,7 +126,7 @@ exports.profile = async (req, res, next) => {
   try {
     let user = await User.findById(req.user._id);
 
-    res.status(200).send({ code: 200, status: 'success', user });
+    res.status(200).send(user);
   } catch (err) {
     res.status(400).send({ code: 400, status: 'error', message: err });
   }

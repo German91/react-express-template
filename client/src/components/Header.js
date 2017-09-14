@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import * as actions from '../actions';
 
 class Header extends Component {
-  render() {
-    const { auth } = this.props;
+  constructor(props) {
+    super(props);
 
-    console.log(auth);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  handleLogout() {
+    this.props.logoutUser();
+  }
+
+  render() {
+    const { auth, user } = this.props;
+
+    console.log(user);
 
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -34,6 +45,18 @@ class Header extends Component {
                 <Link className="nav-link" to="/signup">Sign Up</Link>
               </li>
             }
+
+            {auth && user ?
+              <li className="nav-item">
+                <Link className="nav-link" to="/profile">{user.username}</Link>
+              </li>
+            : ''}
+
+            {auth && user ?
+              <li className="nav-item">
+                <a role="button" onClick={this.handleLogout} className="nav-link">Logout</a>
+              </li>
+            : ''}
           </ul>
         </div>
       </nav>
@@ -41,8 +64,8 @@ class Header extends Component {
   }
 }
 
-function mapStateToProps({ auth }) {
-  return { auth };
+function mapStateToProps({ auth, user }) {
+  return { auth, user };
 }
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, actions)(Header);
