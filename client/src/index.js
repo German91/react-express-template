@@ -3,18 +3,23 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
-import Auth from './utils/Auth';
+import axios from 'axios';
+import registerServiceWorker from './registerServiceWorker';
+import { isAuthenticated } from './utils/tokens';
 
 import App from './components/App';
 import reducers from './reducers';
 
-// Development only axios helpers!
-import axios from 'axios';
-window.axios = axios;
-axios.defaults.headers.common['Authorization'] = Auth.getToken();
+axios.defaults.headers.common['Authorization'] = isAuthenticated();
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
+
+if (isAuthenticated()) {
+  console.log('Logged');
+} else {
+  console.log('Logged out');
+}
 
 ReactDOM.render(
   <Provider store={store}>
@@ -22,3 +27,5 @@ ReactDOM.render(
   </Provider>,
   document.querySelector('#root')
 );
+
+registerServiceWorker();
