@@ -36,7 +36,7 @@ app.use(Compression());
 app.use(Cors());
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
+  app.use(Express.static('client/build'));
 
   app.get('*', (req, res) => {
     res.sendFile(Path.resolve(__dirname, 'client', 'build', 'index.html'));
