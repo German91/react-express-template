@@ -4,7 +4,7 @@ const Mongoose = require('mongoose');
 const UniqueValidator = require('mongoose-unique-validator');
 const Timestamps = require('mongoose-timestamps');
 const Schema = Mongoose.Schema;
-const Bcrypt = require('bcrypt');
+const Bcrypt = require('bcryptjs');
 
 let UserSchema = new Schema({
   username: {

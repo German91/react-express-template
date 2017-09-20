@@ -5,11 +5,10 @@ import { AUTH_USER, AUTH_ERROR, UNAUTH_USER } from './types';
 export const authUser = (payload, history) => async dispatch => {
   try {
     const res = await axios.post('/api/v1/auth/login', payload);
-    localStorage.setItem('token', res.data.token);
-
-    history.push('/');
-
     dispatch({ type: AUTH_USER });
+
+    localStorage.setItem('token', res.data.token);
+    history.push('/');
   } catch (err) {
     dispatch(authError(err.response.data));
   }

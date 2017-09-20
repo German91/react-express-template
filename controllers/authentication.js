@@ -27,7 +27,6 @@ exports.create = async (req, res, next) => {
     let token = await Jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: '1d' });
 
     res
-      .header('Authorization', token)
       .status(202)
       .send({ code: 202, status: 'success', message: 'Accounts successfully created', token });
   } catch (err) {
@@ -69,12 +68,8 @@ exports.login = (req, res, next) => {
         return res.status(400).send({ code: 400, status: 'error', message: 'Email or password is incorrect' });
       }
 
-      Jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: '1d' }, (err, token) => {
-        res
-          .header('Authorization', token)
-          .status(200)
-          .send({ code: 200, status: 'success', token });
-      });
+      const token = Jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: '1d' });
+      res.status(200).send({ code: 200, status: 'success', token });
     });
   });
 };
