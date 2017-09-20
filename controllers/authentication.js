@@ -16,8 +16,13 @@ exports.create = async (req, res, next) => {
   const data = req.body;
 
   try {
-    let user = new User(data);
+    let exists = await User.findOne({ $or: [{ email: data.email }, { username: data.username }] });
 
+    if (exists) {
+      return res.status(400).send({ code: 400, status: 'error', message: 'User already exists' });
+    }
+
+    let user = new User(data);
     await user.save();
     let token = await Jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: '1d' });
 
@@ -45,7 +50,7 @@ exports.login = (req, res, next) => {
   }
 
   if (!data.password) {
-    return res.status(400).send({ code: 400, status: 'error', message: 'Email Address is required' });
+    return res.status(400).send({ code: 400, status: 'error', message: 'Password is required' });
   }
 
   // Find user by email or username
@@ -64,12 +69,12 @@ exports.login = (req, res, next) => {
         return res.status(400).send({ code: 400, status: 'error', message: 'Email or password is incorrect' });
       }
 
-      let token = Jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: '1d' });
-
-      res
-        .header('Authorization', token)
-        .status(200)
-        .send({ code: 200, status: 'success', token });
+      Jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: '1d' }, (err, token) => {
+        res
+          .header('Authorization', token)
+          .status(200)
+          .send({ code: 200, status: 'success', token });
+      });
     });
   });
 };

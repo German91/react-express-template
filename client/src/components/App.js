@@ -6,6 +6,8 @@ import * as actions from '../actions';
 import Home from '../components/Home';
 import About from '../components/About';
 import Header from '../components/Header';
+import Login from '../components/auth/Login';
+import Signup from '../components/auth/Signup';
 
 class App extends Component {
   render() {
@@ -13,8 +15,14 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Header />
+
+          {/* Public Routes */}
           <Route exact path="/" component={Home} />
           <Route exact path="/about" component={About} />
+
+          {/* Auth Routes */}
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={Signup} />
         </div>
       </BrowserRouter>
     );

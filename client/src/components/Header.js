@@ -1,7 +1,30 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
-export default class Header extends Component {
+class Header extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  handleLogout() {
+    this.props.unauthUser();
+  }
+
+  renderRightLinks() {
+    if (!this.props.authenticated) {
+      return [
+        <li key={1}><Link to="/login">Login</Link></li>,
+        <li key={2}><Link to="/signup">Sign Up</Link></li>,
+      ];
+    } else {
+      return <li><Link to="" onClick={this.handleLogout}>Logout</Link></li>;
+    }
+  }
+
   render() {
     return (
       <nav className="navbar navbar-default">
@@ -23,7 +46,7 @@ export default class Header extends Component {
             </ul>
 
             <ul className="nav navbar-nav navbar-right">
-
+              {this.renderRightLinks()}
             </ul>
           </div>
         </div>
@@ -31,3 +54,11 @@ export default class Header extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    authenticated: state.auth ? state.auth.authenticated : null
+  };
+}
+
+export default connect(mapStateToProps, actions)(Header);
