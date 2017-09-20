@@ -35,6 +35,9 @@ app.use(MethodOverride());
 app.use(Compression());
 app.use(Cors());
 
+// API Routes
+require('./routes')(app);
+
 if (process.env.NODE_ENV === 'production') {
   app.use(Express.static('client/build'));
 
@@ -42,9 +45,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(Path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
-
-// API Routes
-require('./routes')(app);
 
 app.listen(PORT, (err) => {
   if (err) {
