@@ -15,6 +15,10 @@ const { sendMail } = require('../services/mailer');
 exports.create = async (req, res, next) => {
   const data = req.body;
 
+  if (!data.username || !data.email || !data.password) {
+    res.status(400).send({ code: 400, status: 'error', message: 'Email Address, username and password are required' });
+  }
+
   try {
     let exists = await User.findOne({ $or: [{ email: data.email }, { username: data.username }] });
 

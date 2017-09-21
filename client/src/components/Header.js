@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
+import * as actions from '../actions/authActions';
 
 class Header extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class Header extends Component {
   }
 
   handleLogout() {
-    this.props.unauthUser();
+    this.props.logoutUser();
   }
 
   renderRightLinks() {
@@ -55,9 +55,9 @@ class Header extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps({ auth }) {
   return {
-    authenticated: state.auth ? state.auth.authenticated : null
+    authenticated: auth ? auth.authenticated : ''
   };
 }
 

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
+import { recoverPassword } from '../../actions/authActions';
+
+import Alert from '../Alert';
 
 class RecoverPassword extends Component {
   constructor(props) {
@@ -22,22 +24,20 @@ class RecoverPassword extends Component {
       this.setState({ error: 'Password does not match' });
     } else {
       this.props.recoverPassword({ password, token });
+
+      this.setState({ error: '' });
     }
+
+    e.target.reset();
   }
 
   renderError() {
     if (this.props.error) {
-      return (
-        <div className="alert alert-danger">
-          <strong>{this.props.error}</strong>
-        </div>
-      );
+      const error = this.props.error.name ? 'The token is expired' : this.props.error;
+
+      return <Alert type="danger" message={error} />;
     } else if (this.props.message) {
-      return (
-        <div className="alert alert-success">
-          <strong>{this.props.message}</strong>
-        </div>
-      );
+      return <Alert type="success" message={this.props.message} />;
     }
   }
 
@@ -77,11 +77,11 @@ class RecoverPassword extends Component {
   }
 };
 
-function mapStateToProps(state) {
+function mapStateToProps({ auth }) {
   return {
-    error: state.auth ? state.auth.error : '',
-    message: state.auth ? state.auth.message: ''
-  }
+    error: auth.error,
+    message: auth.message,
+  };
 }
 
-export default connect(mapStateToProps, actions)(RecoverPassword);
+export default connect(mapStateToProps, { recoverPassword })(RecoverPassword);

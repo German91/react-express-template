@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
+import { loginUser } from '../../actions/authActions';
 import { Link } from 'react-router-dom';
+
+import Alert from '../Alert';
 
 class Login extends Component {
   constructor(props) {
@@ -16,21 +18,18 @@ class Login extends Component {
     const email = this.refs.email.value.trim();
     const password = this.refs.password.value.trim();
 
-    this.props.authUser({ email, password }, this.props.history);
+    this.props.loginUser({ email, password }, this.props.history);
+
+    e.target.reset();
   }
 
   renderError() {
     if (this.props.error) {
-      return (
-        <div className="alert alert-danger">
-          <strong>{this.props.error}</strong>
-        </div>
-      );
+      return <Alert type="danger" message={this.props.error} />
     }
   }
 
   render() {
-    console.log(this.props.error);
     return (
       <div className="container">
         <div className="row">
@@ -64,10 +63,10 @@ class Login extends Component {
   }
 };
 
-function mapStateToProps(state) {
+function mapStateToProps({ auth }) {
   return {
-    error: state.auth ? state.auth.error.message : null
+    error: auth.error,
   };
 }
 
-export default connect(mapStateToProps, actions)(Login);
+export default connect(mapStateToProps, { loginUser })(Login);

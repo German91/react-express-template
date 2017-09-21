@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
+import { forgotPassword } from '../../actions/authActions';
+
+import Alert from '../Alert';
 
 class ForgotPassword extends Component {
   constructor(props) {
@@ -14,22 +16,16 @@ class ForgotPassword extends Component {
 
     const email = this.refs.email.value.trim();
 
-    this.props.forgotPassword(email);
+    this.props.forgotPassword({ email });
+
+    e.target.reset();
   }
 
   renderAlert() {
     if (this.props.error) {
-      return (
-        <div className="alert alert-danger">
-          <strong>{this.props.error}</strong>
-        </div>
-      );
+      return <Alert type="danger" message={this.props.error} />;
     } else if (this.props.message) {
-      return (
-        <div className="alert alert-success">
-          <strong>{this.props.message}</strong>
-        </div>
-      );
+      return <Alert type="success" message={this.props.message} />;
     }
   }
 
@@ -58,11 +54,11 @@ class ForgotPassword extends Component {
   }
 };
 
-function mapStateToProps(state) {
+function mapStateToProps({ auth }) {
   return {
-    message: state.auth ? state.auth.message : '',
-    error: state.auth ? state.auth.error : ''
-  }
+    error: auth.error,
+    message: auth.message,
+  };
 }
 
-export default connect(mapStateToProps, actions)(ForgotPassword);
+export default connect(mapStateToProps, { forgotPassword })(ForgotPassword);

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
+import { createUser } from '../../actions/authActions';
+
+import Alert from '../Alert';
 
 class Signup extends Component {
   constructor(props) {
@@ -17,15 +19,13 @@ class Signup extends Component {
     const email = this.refs.email.value.trim();
 
     this.props.createUser({ username, password, email }, this.props.history);
+
+    e.target.reset();
   }
 
   renderError() {
     if (this.props.error) {
-      return (
-        <div className="alert alert-danger">
-          <strong>{this.props.error}</strong>
-        </div>
-      );
+      return <Alert type="danger" message={this.props.error} />;
     }
   }
 
@@ -64,10 +64,10 @@ class Signup extends Component {
   }
 };
 
-function mapStateToProps(state) {
+function mapStateToProps({ auth }) {
   return {
-    error: state.auth ? state.auth.error.message : null
+    error: auth.error
   };
 }
 
-export default connect(mapStateToProps, actions)(Signup);
+export default connect(mapStateToProps, { createUser })(Signup);

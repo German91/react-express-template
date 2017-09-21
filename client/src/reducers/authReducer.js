@@ -1,17 +1,26 @@
-import { AUTH_USER, AUTH_ERROR, UNAUTH_USER, FORGOT_PASSWORD, RECOVER_PASSWORD } from '../actions/types';
+import {
+  AUTH_USER,
+  AUTH_ERROR,
+  UNAUTH_USER,
+  AUTH_PASSWORD,
+} from '../actions/types';
 
-export default function(state = null, action) {
+const initialState = {
+  error: '',
+  message: '',
+  authenticated: false
+};
+
+export default function(state = initialState, action) {
   switch (action.type) {
     case AUTH_USER:
-      return { ...state, error: '', authenticated: true };
+      return Object.assign({}, state, { authenticated: true });
     case AUTH_ERROR:
-      return { ...state, error: action.payload };
+      return Object.assign({}, state, { error: action.payload });
     case UNAUTH_USER:
-      return { ...state, error: '', authenticated: false };
-    case FORGOT_PASSWORD:
-      return { ...state, error: '', message: action.payload };
-    case RECOVER_PASSWORD:
-      return { ...state, error: '', message: action.payload };
+      return Object.assign({}, state, { authenticated: false });
+    case AUTH_PASSWORD:
+      return Object.assign({}, state, { message: action.payload });
     default:
       return state;
   }
