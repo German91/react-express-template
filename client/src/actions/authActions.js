@@ -5,7 +5,8 @@ import {
   UNAUTH_USER,
   AUTH_PASSWORD_SUCCESS,
   AUTH_PASSWORD_FAILURE,
-  CREATE_USER_FAILURE
+  CREATE_USER_FAILURE,
+  FETCH_PROFILE_SUCCESS
 } from './types';
 
 export const loginUser = (payload, history) => async dispatch => {
@@ -15,7 +16,7 @@ export const loginUser = (payload, history) => async dispatch => {
     localStorage.setItem('token', res.data.token);
     history.push('/');
 
-    dispatch({ type: AUTH_SUCCESS });
+    dispatch({ type: AUTH_SUCCESS, payload: res.data.user });
   } catch (err) {
     dispatch({ type: AUTH_FAILURE, payload: err.response.data.message });
   }
@@ -60,4 +61,10 @@ export const recoverPassword = (payload) => async dispatch => {
   } catch (err) {
     dispatch({ type: AUTH_PASSWORD_FAILURE, payload: err.response.data.message });
   }
+};
+
+export const fetchUserProfile = () => async dispatch => {
+  const res = await axios.get('/api/v1/auth/profile');
+
+  dispatch({ type: FETCH_PROFILE_SUCCESS, payload: res.data });
 };

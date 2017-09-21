@@ -73,7 +73,8 @@ exports.login = (req, res, next) => {
       Jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: '1d' }, (err, token) => {
         if (err) return next();
 
-        res.status(200).send({ code: 200, status: 'success', token });
+
+        res.status(200).send({ code: 200, status: 'success', token, user: user.toJson() });
       });
     });
   });
@@ -139,7 +140,7 @@ exports.profile = async (req, res, next) => {
   try {
     let user = await User.findById(req.user._id);
 
-    res.status(200).send(user);
+    res.status(200).send(user.toJson());
   } catch (err) {
     res.status(400).send({ code: 400, status: 'error', message: err });
   }

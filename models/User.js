@@ -51,6 +51,17 @@ let UserSchema = new Schema({
   },
 });
 
+UserSchema.methods.toJson = function () {
+  const user = {
+    _id: this._id,
+    username: this.username,
+    email: this.email,
+    roles: this.roles
+  };
+
+  return user;
+};
+
 UserSchema.methods.comparePassword = function (password, callback) {
   let user = this;
 

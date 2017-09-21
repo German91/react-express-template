@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { fetchUserProfile } from '../actions/authActions';
 
 import Home from '../components/Home';
 import About from '../components/About';
@@ -11,6 +12,12 @@ import ForgotPassword from '../components/auth/ForgotPassword';
 import RecoverPassword from '../components/auth/RecoverPassword';
 
 class App extends Component {
+  componentDidMount() {
+    if (this.props.authenticated) {
+      this.props.fetchUserProfile();
+    }
+  }
+
   render() {
     return (
       <BrowserRouter>
@@ -32,4 +39,10 @@ class App extends Component {
   }
 }
 
-export default connect(null, null)(App);
+function mapStateToProps({ auth }) {
+  return {
+    authenticated: auth.authenticated
+  }
+}
+
+export default connect(mapStateToProps, { fetchUserProfile })(App);

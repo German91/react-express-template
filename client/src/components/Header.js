@@ -57,7 +57,8 @@ class Header extends Component {
 
 function mapStateToProps({ auth }) {
   return {
-    authenticated: auth ? auth.authenticated : ''
+    authenticated: auth.authenticated,
+    profile: auth.profile
   };
 }
 

@@ -4,3 +4,4 @@ export const CREATE_USER_FAILURE = 'create_user_failure';
 export const UNAUTH_USER = 'unauth_user';
 export const AUTH_PASSWORD_SUCCESS = 'auth_password_success';
 export const AUTH_PASSWORD_FAILURE = 'auth_password_failure';
+export const FETCH_PROFILE_SUCCESS = 'fetch_profile_success';
