@@ -8,6 +8,8 @@ import About from '../components/About';
 import Header from '../components/Header';
 import Login from '../components/auth/Login';
 import Signup from '../components/auth/Signup';
+import ForgotPassword from '../components/auth/ForgotPassword';
+import RecoverPassword from '../components/auth/RecoverPassword';
 
 class App extends Component {
   render() {
@@ -23,6 +25,8 @@ class App extends Component {
           {/* Auth Routes */}
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
+          <Route exact path="/forgot-password" component={ForgotPassword} />
+          <Route exact path="/reset-password/:token" component={RecoverPassword} />
         </div>
       </BrowserRouter>
     );

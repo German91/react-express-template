@@ -85,7 +85,7 @@ exports.forgotPassword = async (req, res, next) => {
 
   try {
     let user = await User.findOne({ email });
-    let token = await Jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: '1h' });
+    let token = await Jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: '10m' });
     let url = `${process.env.ROOT_URL}/reset-password/${token}`;
 
     await sendMail({ email, url }, 'Forgot Password', 'forgotPassword');
@@ -104,7 +104,7 @@ exports.forgotPassword = async (req, res, next) => {
  */
 exports.resetPassword = async (req, res, next) => {
   const password = req.body['password'];
-  const token = req.params['token'];
+  const token = req.body['token'];
 
   try {
     let decoded = await Jwt.verify(token, process.env.SECRET_KEY);

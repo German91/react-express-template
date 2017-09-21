@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
   constructor(props) {
@@ -52,6 +53,10 @@ class Login extends Component {
 
               <button type="submit" className="btn btn-primary">Login</button>
             </form>
+
+            <div className="text-center">
+              <Link to="/forgot-password">Forgot password?</Link>
+            </div>
           </div>
         </div>
       </div>
