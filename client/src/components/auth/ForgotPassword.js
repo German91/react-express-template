@@ -56,7 +56,7 @@ class ForgotPassword extends Component {
 
 function mapStateToProps({ auth }) {
   return {
-    error: auth.error,
+    error: auth.authPasswordError,
     message: auth.message,
   };
 }

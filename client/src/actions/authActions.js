@@ -1,9 +1,11 @@
 import axios from 'axios';
 import {
-  AUTH_USER,
-  AUTH_ERROR,
+  AUTH_SUCCESS,
+  AUTH_FAILURE,
   UNAUTH_USER,
-  AUTH_PASSWORD
+  AUTH_PASSWORD_SUCCESS,
+  AUTH_PASSWORD_FAILURE,
+  CREATE_USER_FAILURE
 } from './types';
 
 export const loginUser = (payload, history) => async dispatch => {
@@ -13,9 +15,9 @@ export const loginUser = (payload, history) => async dispatch => {
     localStorage.setItem('token', res.data.token);
     history.push('/');
 
-    dispatch({ type: AUTH_USER });
+    dispatch({ type: AUTH_SUCCESS });
   } catch (err) {
-    dispatch({ type: AUTH_ERROR, payload: err.response.data.message });
+    dispatch({ type: AUTH_FAILURE, payload: err.response.data.message });
   }
 };
 
@@ -26,9 +28,9 @@ export const createUser = (payload, history) => async dispatch => {
     localStorage.setItem('token', res.data.token);
     history.push('/');
 
-    dispatch({ type: AUTH_USER });
+    dispatch({ type: AUTH_SUCCESS });
   } catch (err) {
-    dispatch({ type: AUTH_ERROR, payload: err.response.data.message });
+    dispatch({ type: CREATE_USER_FAILURE, payload: err.response.data.message });
   }
 };
 
@@ -44,9 +46,9 @@ export const forgotPassword = (payload) => async dispatch => {
   try {
     const res = await axios.post('/api/v1/auth/forgot-password', payload);
 
-    dispatch({ type: AUTH_PASSWORD, payload: res.data.message });
+    dispatch({ type: AUTH_PASSWORD_SUCCESS, payload: res.data.message });
   } catch (err) {
-    dispatch({ type: AUTH_ERROR, payload: err.response.data.message });
+    dispatch({ type: AUTH_PASSWORD_FAILURE, payload: err.response.data.message });
   }
 };
 
@@ -54,8 +56,8 @@ export const recoverPassword = (payload) => async dispatch => {
   try {
     const res = await axios.post('/api/v1/auth/reset-password', payload);
 
-    dispatch({ type: AUTH_PASSWORD, payload: res.data.message });
+    dispatch({ type: AUTH_PASSWORD_SUCCESS, payload: res.data.message });
   } catch (err) {
-    dispatch({ type: AUTH_ERROR, payload: err.response.data.message });
+    dispatch({ type: AUTH_PASSWORD_FAILURE, payload: err.response.data.message });
   }
 };

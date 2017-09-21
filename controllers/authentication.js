@@ -87,6 +87,10 @@ exports.login = (req, res, next) => {
 exports.forgotPassword = async (req, res, next) => {
   const email = req.body['email'];
 
+  if (!email) {
+    return res.status(400).send({ code: 400, status: 'error', message: 'Email Address is required' });
+  }
+
   try {
     let user = await User.findOne({ email });
     let token = await Jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: '10m' });
@@ -109,6 +113,10 @@ exports.forgotPassword = async (req, res, next) => {
 exports.resetPassword = async (req, res, next) => {
   const password = req.body['password'];
   const token = req.body['token'];
+
+  if (!password) {
+    return res.status(400).send({ code: 400, status: 'error', message: 'Password is required' });
+  }
 
   try {
     let decoded = await Jwt.verify(token, process.env.SECRET_KEY);

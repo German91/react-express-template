@@ -66,7 +66,7 @@ class Signup extends Component {
 
 function mapStateToProps({ auth }) {
   return {
-    error: auth.error
+    error: auth.createUserError,
   };
 }
 

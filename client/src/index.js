@@ -8,13 +8,13 @@ import registerServiceWorker from './registerServiceWorker';
 
 import App from './components/App';
 import reducers from './reducers';
-import { AUTH_USER } from './actions/types';
+import { AUTH_SUCCESS } from './actions/types';
 
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 const token = localStorage.getItem('token');
 
 if (token) {
-  store.dispatch({ type: AUTH_USER });
+  store.dispatch({ type: AUTH_SUCCESS });
   axios.defaults.headers.common['Authorization'] = token;
 }
 
