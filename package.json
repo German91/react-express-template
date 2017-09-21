@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/German91/react-express-template#readme",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.1",
     "compression": "^1.7.0",
     "cookie-parser": "^1.4.3",

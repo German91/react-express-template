@@ -52,7 +52,7 @@ class Signup extends Component {
 
               <div className="form-group">
                 <label htmlFor="password">Password</label>
-                <input type="text" id="password" ref="password" placeholder="password" className="form-control"/>
+                <input type="password" id="password" ref="password" placeholder="password" className="form-control"/>
               </div>
 
               <button type="submit" className="btn btn-primary">Sign Up</button>

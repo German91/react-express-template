@@ -4,7 +4,7 @@ const Mongoose = require('mongoose');
 const UniqueValidator = require('mongoose-unique-validator');
 const Timestamps = require('mongoose-timestamps');
 const Schema = Mongoose.Schema;
-const Bcrypt = require('bcryptjs');
+const Bcrypt = require('bcrypt');
 
 let UserSchema = new Schema({
   username: {
@@ -51,10 +51,10 @@ let UserSchema = new Schema({
   },
 });
 
-UserSchema.methods.comparePassword = function (plainPassword, callback) {
+UserSchema.methods.comparePassword = function (password, callback) {
   let user = this;
 
-  Bcrypt.compare(plainPassword, user.password, function (err, isMatch) {
+  Bcrypt.compare(password, user.password, function (err, isMatch) {
     if (err) return callback(err);
 
     callback(null, isMatch);
@@ -64,19 +64,19 @@ UserSchema.methods.comparePassword = function (plainPassword, callback) {
 UserSchema.pre('save', function (next) {
   let user = this;
 
-  if (!user.isModified('password')) return next();
-
-  Bcrypt.genSalt(15, function (err, salt) {
-    if (err) return next(err);
-
-    Bcrypt.hash(user.password, salt, function (err, hash) {
+  if (user.isModified('password')) {
+    Bcrypt.genSalt(10, function (err, salt) {
       if (err) return next(err);
 
-      user.password = hash;
+      Bcrypt.hash(user.password, salt, function (err, hash) {
+        if (err) return next(err);
 
-      next();
+        user.password = hash;
+
+        next();
+      });
     });
-  })
+  }
 });
 
 let User = Mongoose.model('User', UserSchema, 'users');
