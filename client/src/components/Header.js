@@ -20,8 +20,13 @@ class Header extends Component {
         <li key={1}><Link to="/login">Login</Link></li>,
         <li key={2}><Link to="/signup">Sign Up</Link></li>,
       ];
-    } else {
-      return <li><Link to="" onClick={this.handleLogout}>Logout</Link></li>;
+    } else if (this.props.authenticated && this.props.profile) {
+      const profile = this.props.profile;
+
+      return [
+        <li key={3}><Link to="/profile">{profile.username}</Link></li>,
+        <li key={4}><Link to="" onClick={this.handleLogout}>Logout</Link></li>
+      ];
     }
   }
 

@@ -10,6 +10,7 @@ import Login from '../components/auth/Login';
 import Signup from '../components/auth/Signup';
 import ForgotPassword from '../components/auth/ForgotPassword';
 import RecoverPassword from '../components/auth/RecoverPassword';
+import Profile from '../components/auth/Profile';
 
 class App extends Component {
   componentDidMount() {
@@ -33,6 +34,7 @@ class App extends Component {
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/forgot-password" component={ForgotPassword} />
           <Route exact path="/reset-password/:token" component={RecoverPassword} />
+          <Route exact path="/profile" component={Profile} />
         </div>
       </BrowserRouter>
     );
