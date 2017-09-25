@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../actions/authActions';
+import _ from 'lodash';
 
 class Header extends Component {
   constructor(props) {
@@ -22,11 +23,22 @@ class Header extends Component {
       ];
     } else if (this.props.authenticated && this.props.profile) {
       const profile = this.props.profile;
+      let routes = [];
 
-      return [
-        <li key={3}><Link to="/profile">{profile.username}</Link></li>,
-        <li key={4}><Link to="" onClick={this.handleLogout}>Logout</Link></li>
+      const publicRoutes = [
+        <li key={4}><Link to="/profile">{profile.username}</Link></li>,
+        <li key={5}><Link to="" onClick={this.handleLogout}>Logout</Link></li>
       ];
+
+      if (profile.roles.indexOf('ADMIN') > -1) {
+        const adminRoutes = [
+          <li key={3}><Link to="/admin">Admin Panel</Link></li>
+        ];
+
+        routes = _.concat(routes, adminRoutes);
+      }
+
+      return _.concat(routes, publicRoutes);
     }
   }
 

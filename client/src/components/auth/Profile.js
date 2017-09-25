@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 class Profile extends Component {
   render() {
@@ -26,15 +25,6 @@ class Profile extends Component {
       </div>
     );
   }
-};
-
-Profile.propTypes = {
-  profile: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    roles: PropTypes.array.isRequired
-  })
 };
 
 function mapStateToProps({ auth }) {

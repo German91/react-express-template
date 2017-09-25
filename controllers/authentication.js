@@ -30,7 +30,7 @@ exports.create = async (req, res, next) => {
     await user.save();
     let token = await Jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: '1d' });
 
-    res.status(202).send({ code: 202, status: 'success', message: 'Accounts successfully created', token });
+    res.status(202).send({ code: 202, status: 'success', message: 'Accounts successfully created', token, user: user.toJson() });
   } catch (err) {
     res.status(400).send({ code: 200, status: 'error', message: err });
   }

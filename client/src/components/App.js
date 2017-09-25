@@ -11,6 +11,9 @@ import Signup from '../components/auth/Signup';
 import ForgotPassword from '../components/auth/ForgotPassword';
 import RecoverPassword from '../components/auth/RecoverPassword';
 import Profile from '../components/auth/Profile';
+import RequireAuth from '../components/auth/RequireAuth';
+import RequireAdmin from '../components/auth/RequireAdmin';
+import Admin from '../components/Admin';
 
 class App extends Component {
   componentDidMount() {
@@ -34,7 +37,12 @@ class App extends Component {
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/forgot-password" component={ForgotPassword} />
           <Route exact path="/reset-password/:token" component={RecoverPassword} />
-          <Route exact path="/profile" component={Profile} />
+
+          {/* Authenticated Routes */}
+          <Route exact path="/profile" component={RequireAuth(Profile)} />
+
+          {/* Admin Routes */}
+          <Route exact path="/admin" component={RequireAdmin(Admin)} />
         </div>
       </BrowserRouter>
     );

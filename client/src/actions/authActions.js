@@ -29,7 +29,7 @@ export const createUser = (payload, history) => async dispatch => {
     localStorage.setItem('token', res.data.token);
     history.push('/');
 
-    dispatch({ type: AUTH_SUCCESS });
+    dispatch({ type: AUTH_SUCCESS, payload: res.data.user });
   } catch (err) {
     dispatch({ type: CREATE_USER_FAILURE, payload: err.response.data.message });
   }
