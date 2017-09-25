@@ -5,6 +5,7 @@ import { createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
 import axios from 'axios';
 import registerServiceWorker from './registerServiceWorker';
+import './styles/main.css';
 
 import App from './components/App';
 import reducers from './reducers';
