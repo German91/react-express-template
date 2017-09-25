@@ -27,7 +27,10 @@ app.use(Helmet.frameguard());
 app.use(Helmet.hidePoweredBy());
 
 // Config
-app.use(Logger('combined'));
+if (process.env.NODE_ENV !== 'test' ) {
+  app.use(Logger('combined'));
+}
+
 app.use(BodyParser.json({ type: '*/*' }));
 app.use(BodyParser.urlencoded({ 'extended': false }));
 app.use(CookieParser());

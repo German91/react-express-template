@@ -11,7 +11,7 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm run start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "SET NODE_ENV=dev concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
     "test": "mocha"
   },
@@ -55,6 +55,8 @@
     "validator": "^8.2.0"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
     "concurrently": "^3.5.0",
     "mocha": "^3.5.3",
     "nodemon": "^1.12.0"
