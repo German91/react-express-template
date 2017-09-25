@@ -9,12 +9,15 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "jquery": "^3.2.1",
+    "jsdom": "^11.2.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "node-sass-chokidar": "^0.0.3",
     "npm-run-all": "^4.1.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
+    "react-addons-test-utils": "^15.6.0",
     "react-bootstrap": "^0.31.3",
     "react-dom": "^15.6.1",
     "react-flip-move": "^2.9.15",
@@ -26,6 +29,8 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-jquery": "^2.0.0",
     "react-scripts": "1.0.13"
   },
   "scripts": {
