@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Spinner from 'react-spinkit';
 
 class Profile extends Component {
   render() {
     const profile = this.props.profile;
 
     if (!profile) {
-      return <div>Loading...</div>
+      return (
+        <div className="centered">
+          <Spinner name='rotating-plane' />
+        </div>
+      );
     }
 
     return (
